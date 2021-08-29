@@ -17,7 +17,8 @@ public class JpaMain {
             tx.begin();
 //            logic(em);
 //            testDetached(em);
-            clearEntityManager(em);
+//            clearEntityManager(em);
+            closeEntityManager(em, tx);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -83,5 +84,21 @@ public class JpaMain {
 
         findMember.setUsername("변경된홍길동");
         System.out.println("이름 : " + findMember.getUsername());
+    }
+
+    // 영속성 컨텍스트 종료
+    public static void closeEntityManager(EntityManager em, EntityTransaction tx) {
+
+        // 조회
+        String id = "id1";
+        Member findMember1 = em.find(Member.class, id);
+        System.out.println("이름 : " + findMember1.getUsername());
+
+        tx.commit();
+        em.close(); // 영속성 컨텍스트 종료
+
+        // 조회 : 준영속 상태
+        findMember1.setUsername("다길동");
+        System.out.println("이름 : " + findMember1.getUsername());
     }
 }

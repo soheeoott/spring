@@ -16,7 +16,8 @@ public class JpaMain {
         try {
             tx.begin();
 //            logic(em);
-            testDetached(em);
+//            testDetached(em);
+            clearEntityManager(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -29,7 +30,7 @@ public class JpaMain {
     // 비즈니스 로직
     private static void logic(EntityManager em) {
 
-        em.setFlushMode(FlushModeType.COMMIT); // 플러시 모드 : 트랜잭션을 커밋할 때만 플러시를 수행, 성능 최적화
+//        em.setFlushMode(FlushModeType.COMMIT); // 플러시 모드 : 트랜잭션을 커밋할 때만 플러시를 수행, 성능 최적화
 
         String id = "id1";
         Member member = new Member();
@@ -68,6 +69,19 @@ public class JpaMain {
 
         // 조회
         Member findMember = em.find(Member.class, id);
+        System.out.println("이름 : " + findMember.getUsername());
+    }
+
+    // 영속성 컨텍스트 초기화
+    public static void clearEntityManager(EntityManager em) {
+
+        // 조회
+        String id = "id2";
+        Member findMember = em.find(Member.class, id);
+        System.out.println("이름 : " + findMember.getUsername());
+        em.clear(); // 초기화
+
+        findMember.setUsername("변경된홍길동");
         System.out.println("이름 : " + findMember.getUsername());
     }
 }

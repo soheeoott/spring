@@ -15,7 +15,8 @@ public class JpaMain {
         // 트랜잭션 API
         try {
             tx.begin();
-            logic(em);
+//            logic(em);
+            testDetached(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -51,5 +52,22 @@ public class JpaMain {
 
         // 삭제
         em.remove(member);
+    }
+
+    // 영속 상태 -> 준영속 상태
+    public static void testDetached(EntityManager em) {
+
+        // 회원 엔티티 생성, 비영속 상태
+        String id = "testMember";
+        Member member = new Member();
+        member.setId(id);
+        member.setUsername("테스트회원");
+        
+        em.persist(member); // 영속
+        em.detach(member);  // 영속 -> 준영속
+
+        // 조회
+        Member findMember = em.find(Member.class, id);
+        System.out.println("이름 : " + findMember.getUsername());
     }
 }

@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 @Setter @Getter
 @Entity
+@org.hibernate.annotations.DynamicUpdate // 동적 수정 쿼리 : 수정된 데이터만 사용한 쿼리(update) 생성
 @Table(name = "MEMBER")
 public class Member {
 

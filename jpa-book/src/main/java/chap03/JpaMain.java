@@ -1,9 +1,6 @@
 package chap03;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain {
@@ -30,6 +27,8 @@ public class JpaMain {
 
     // 비즈니스 로직
     private static void logic(EntityManager em) {
+
+        em.setFlushMode(FlushModeType.COMMIT); // 플러시 모드 : 트랜잭션을 커밋할 때만 플러시를 수행, 성능 최적화
 
         String id = "id1";
         Member member = new Member();
